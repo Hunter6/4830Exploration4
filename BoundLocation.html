@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Bound Loction</title>
+    <!-- Google Maps and Places API -->
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+	<style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script>
+		function init(){
+			var mapDiv =document.getElementById("map-canvas");
+			var mapOptions = {
+				center: new google.maps.LatLng (41.850033, -87.6500523),
+				zoom: 5,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			var map = new google.maps.Map(mapDiv, mapOptions);
+			
+			google.maps.event.addListener(map,"bounds_changed",function(){
+				var bounds = map.getBounds();
+				var NE = bounds.getNorthEast();
+				var SW = bounds.getSouthWest();
+				var strHTML="North East:" + NE.lat()+", "+NE.lng()+ "</br>";
+				strHTML+="South West: "+ SW.lat()+", "+ SW.lng();
+				document.getElementById("info").innerHTML = strHTML;
+			})
+		}
+		google.maps.event.addDomListener(window, 'load', init);
+	</script>
+	
+</head>
+<body>
+    <!-- map div container -->
+<div><h1 align="center">Google API: Show thye dynamic bound location when pull the map</h1></div>
+<div id="map-canvas" style="width:2000px;height:1000px;margin:auto"></div>
+
+<div id="info" style="width:2000px;margin:auto"></div>
+</body>
+</html>
